@@ -64,6 +64,8 @@ namespace Din_Kogebog
 
         public string BakingMode { get; set; }
 
+        public int BakingTemperature { get; set; }
+
         public List<string> Categories = new List<string>();
 
         public void AddIngredient(string ingredient, (double, Unit) amount)
@@ -124,11 +126,15 @@ namespace Din_Kogebog
         {
             Console.Clear();
             Console.WriteLine(Name);
-            Console.WriteLine("Servings: " + Servings + "\t" + "Difficulty: " + Difficulty + "\t" + ");
-            //TODO: Add print difficulty and coocking time
+            Console.WriteLine("Portioner: " + Servings + "\t" + "Sværhedsgrad: "
+                + Difficulty + "\t" + "Tid: " + Time);
             Console.WriteLine(PrintCategories());
-            //TODO: Add funktionality for bakeing
-
+            //TODO: Add funktionality for baking
+            if (Baking)
+            {
+                Console.WriteLine($"Bages i {BakingTime} ved {BakingTemperature}" +
+                    $" grader, ved {BakingMode}");
+            }
             Console.WriteLine(PrintIngredientList());
             Console.WriteLine(PrintSteps());
         }
