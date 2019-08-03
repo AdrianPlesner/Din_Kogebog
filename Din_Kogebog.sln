@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Din_Kogebog", "Din_Kogebog\Din_Kogebog.csproj", "{87C19973-2B71-4DC6-81F0-1454EAF9F37D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Din_Kogebog.test", "Din_Kogebog.test\Din_Kogebog.test.csproj", "{2685E808-DBA4-496A-914D-FFA0933D9FA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87C19973-2B71-4DC6-81F0-1454EAF9F37D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C19973-2B71-4DC6-81F0-1454EAF9F37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C19973-2B71-4DC6-81F0-1454EAF9F37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C19973-2B71-4DC6-81F0-1454EAF9F37D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2685E808-DBA4-496A-914D-FFA0933D9FA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2685E808-DBA4-496A-914D-FFA0933D9FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2685E808-DBA4-496A-914D-FFA0933D9FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2685E808-DBA4-496A-914D-FFA0933D9FA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
