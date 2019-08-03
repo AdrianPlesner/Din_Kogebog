@@ -124,7 +124,8 @@ namespace Din_Kogebog
         {
             Console.Clear();
             Console.WriteLine(Name);
-            Console.WriteLine("Servings: " + Servings + "\n");
+            Console.WriteLine("Servings: " + Servings);
+            Console.WriteLine("Difficulty: " + Difficulty);
             //TODO: Add print difficulty and coocking time
             Console.WriteLine(PrintCategories());
             //TODO: Add funktionality for bakeing
