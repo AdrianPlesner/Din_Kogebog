@@ -78,7 +78,11 @@ namespace Din_Kogebog
             Ingredients[ingredient] = newAmount;
         }
 
-        //TODO: Add removing method
+        public void RemoveIngredient(string ingredient)
+        {
+            Ingredients.Remove(ingredient);
+            //TODO: add "are you sure"
+        }
 
         public string PrintIngredientList()
         {
@@ -94,8 +98,24 @@ namespace Din_Kogebog
 
         public void AddStep(int num, string step)
         {
-            Steps.Add(num, step);
-            //TODO:funrionality to change order of steps easily
+            if(num == Steps.Count+1)
+            {
+                Steps.Add(num, step);
+            }
+            else if(num > Steps.Count)
+            {
+                AddStep(Steps.Count + 1, step);
+            }
+            else
+            {
+                for(int i = Steps.Count; i >= num; i--)
+                {
+                    string buffer = Steps[i];
+                    Steps.Add(i + 1, buffer);
+                    Steps.Remove(i);
+                }
+                Steps.Add(num, step);
+            }
         }
 
         public void EditStep(int num, string newStep)
@@ -103,7 +123,19 @@ namespace Din_Kogebog
             Steps[num] = newStep;
         }
 
-        //TODO: Add removing method
+        public void RemoveStep(int num)
+        {
+            int end = Steps.Count;
+
+            Steps.Remove(num);
+            
+            for(int i = num + 1; i <= end; i++)
+            {
+                string buffer = Steps[i];
+                Steps.Add(i - 1, buffer);
+                Steps.Remove(i);
+            }
+        }
 
         public string PrintSteps()
         {
@@ -111,7 +143,7 @@ namespace Din_Kogebog
 
             foreach(var item in Steps)
             {
-                result += $"{item.Key} {item.Value} \n";
+                result += $"{item.Key}. {item.Value} \n";
             }
 
             return result;
@@ -129,14 +161,23 @@ namespace Din_Kogebog
             Console.WriteLine("Portioner: " + Servings + "\t" + "Sværhedsgrad: "
                 + Difficulty + "\t" + "Tid: " + Time);
             Console.WriteLine(PrintCategories());
-            //TODO: Add funktionality for baking
-            if (Baking)
-            {
-                Console.WriteLine($"Bages i {BakingTime} ved {BakingTemperature}" +
-                    $" grader, ved {BakingMode}");
-            }
+            Console.WriteLine(PrintBaking());
+            
             Console.WriteLine(PrintIngredientList());
             Console.WriteLine(PrintSteps());
+        }
+
+        public string PrintBaking()
+        {
+            if (Baking)
+            {
+                return $"Bages i {BakingTime} ved {BakingTemperature}" +
+                    $" grader, ved {BakingMode}";
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public string PrintCategories()
