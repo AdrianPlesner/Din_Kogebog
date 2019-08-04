@@ -7,7 +7,6 @@ namespace Din_Kogebog
         static void Main(string[] args)
         {
             SetupMenu();
-            MainMenu.AddMenuItem(new MenuItem("Luk", "Gemmer og lukker"));
             MainMenu.Select();
         }
 
