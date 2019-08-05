@@ -130,6 +130,8 @@ namespace Din_Kogebog
             Console.WriteLine("[" + Title + "]");
             Console.WriteLine(Content);
         }
+
+        
     }
 
 }
