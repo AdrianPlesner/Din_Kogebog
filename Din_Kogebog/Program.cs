@@ -54,8 +54,19 @@ namespace Din_Kogebog
             {
                 Recipe newRecipe = new Recipe(name);
 
+                GetIngredients(newRecipe);
+                RecipeList.Add(newRecipe);
+
             }
 
+            
+
+        }
+
+        private static void GetIngredients(Recipe newRecipe)
+        {
+            Console.Clear();
+            Console.WriteLine("Hvilke ingredien");
         }
 
         static private string PromptForInput(string question)
