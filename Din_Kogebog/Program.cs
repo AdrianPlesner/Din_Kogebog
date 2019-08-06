@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Din_Kogebog
 {
@@ -7,12 +8,20 @@ namespace Din_Kogebog
         static void Main()
         {
             SetupMenu();
+            RecipeList = LoadRecipes();
             MainMenu.Select();
 
 
         }
 
+        private static List<Recipe> LoadRecipes()
+        {
+            throw new NotImplementedException();
+        }
+
         static Menu MainMenu = new Menu("Din Kogebog", "Hvordan vil du fortsætte?");
+
+        static List<Recipe> RecipeList = new List<Recipe>();
 
         static void SetupMenu()
         {
@@ -36,7 +45,17 @@ namespace Din_Kogebog
 
         static private void NewRecipe()
         {
-            PromptForInput("Hvad er navnet på din nye opskrift?");
+            string name = PromptForInput("Hvad er navnet på din nye opskrift?");
+            if(name == null)
+            {
+                MainMenu.Select();
+            }
+            else
+            {
+                Recipe newRecipe = new Recipe(name);
+
+            }
+
         }
 
         static private string PromptForInput(string question)
@@ -73,7 +92,7 @@ namespace Din_Kogebog
                 ConsoleKeyInfo inkey = Console.ReadKey();
                 switch ((int)inkey.Key)
                 {
-                    case 40: case 38:
+                    case 37: case 39:
                         {
                             if (confirm)
                                 confirm = false;
@@ -92,6 +111,10 @@ namespace Din_Kogebog
                                 input = null;
                             }
                             break;
+                        }
+                    case 27:
+                        {
+                            return null;
                         }
                     default:
                         break;
