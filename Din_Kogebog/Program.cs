@@ -45,6 +45,7 @@ namespace Din_Kogebog
             string input = null;
             bool confirm = true;
             while (cont) {
+                Console.Clear();
                 Console.WriteLine(question);
                 if (input == null)
                 {
@@ -64,16 +65,38 @@ namespace Din_Kogebog
                 }
                 else
                 {
-                    Console.Write("Ja");
+                    Console.Write("Ja/");
                     ReverseColors();
-                    Console.Write("/Nej");
+                    Console.Write("Nej");
                     ReverseColors();
                 }
                 ConsoleKeyInfo inkey = Console.ReadKey();
                 switch ((int)inkey.Key)
                 {
-                    
+                    case 40: case 38:
+                        {
+                            if (confirm)
+                                confirm = false;
+                            else
+                                confirm = true;
+                            break;
+                        }
+                    case 13:
+                        {
+                            if (confirm)
+                            {
+                                return input;
+                            }
+                            else
+                            {
+                                input = null;
+                            }
+                            break;
+                        }
+                    default:
+                        break;
                 }
+                
 
                 
             }
