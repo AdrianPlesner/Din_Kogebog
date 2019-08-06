@@ -8,7 +8,7 @@ namespace Din_Kogebog
         static void Main()
         {
             SetupMenu();
-            RecipeList = LoadRecipes();
+            //RecipeList = LoadRecipes();
             MainMenu.Select();
 
 
@@ -54,19 +54,57 @@ namespace Din_Kogebog
             {
                 Recipe newRecipe = new Recipe(name);
 
-                GetIngredients(newRecipe);
+                if (!GetIngredients(newRecipe))
+                {
+                    MainMenu.Select();
+                }
+
+
                 RecipeList.Add(newRecipe);
 
             }
-
-            
-
         }
 
-        private static void GetIngredients(Recipe newRecipe)
+        private static bool GetIngredients(Recipe recipe)
         {
-            Console.Clear();
-            Console.WriteLine("Hvilke ingredien");
+            while (true)
+            {
+                //TODO: add first run and then prompt for when done
+                string[] ingredient = PromptForInput($"Tilføj ingredienser\n{recipe.Name}\n" +
+                    $"{recipe.PrintIngredientList()}Tilføj næste ingrediens: [mængde enhed navn]").Split(" ");
+                if (ingredient == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    Unit unit = Recipe.ParseUnit(ingredient[1]);
+                    if(unit == Unit.nan)
+                    {
+                        Console.WriteLine("Ukendt enhed! Prøv igen. :)");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    else
+                    {
+                        double amount;
+                        bool correct = double.TryParse(ingredient[0], out amount);
+                        if (!correct)
+                        {
+                            Console.WriteLine("Mængden skal være et tal! Prøv igen. :)");
+                            Console.ReadKey();
+                            continue;
+                        }
+                        else
+                        {
+                            recipe.AddIngredient(ingredient[2], (amount, unit));
+                        }
+                    }
+                }
+
+
+
+            }
         }
 
         static private string PromptForInput(string question)

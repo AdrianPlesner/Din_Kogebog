@@ -12,7 +12,8 @@ namespace Din_Kogebog
         tsk,
         knsp,
         stk,
-        ml
+        ml,
+        nan
     }
 
     public class Recipe
@@ -224,6 +225,30 @@ namespace Din_Kogebog
                     return "Nan";
                 
             }
+        }
+
+        public static Unit ParseUnit(string unit)
+        {
+            if (unit == "g")
+                return Unit.g;
+            else if (unit == "dl")
+                return Unit.dl;
+            else if (unit == "kg")
+                return Unit.kg;
+            else if (unit == "knsp")
+                return Unit.knsp;
+            else if (unit == "l")
+                return Unit.l;
+            else if (unit == "ml")
+                return Unit.ml;
+            else if (unit == "spsk")
+                return Unit.spsk;
+            else if (unit == "stk")
+                return Unit.stk;
+            else if (unit == "tsk")
+                return Unit.tsk;
+            else
+                return Unit.nan;
         }
 
 
