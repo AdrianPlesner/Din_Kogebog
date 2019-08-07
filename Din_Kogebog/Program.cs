@@ -58,6 +58,10 @@ namespace Din_Kogebog
                 {
                     MainMenu.Select();
                 }
+                if (!GetSteps(newRecipe))
+                {
+                    MainMenu.Select();
+                }
 
 
                 RecipeList.Add(newRecipe);
@@ -65,16 +69,23 @@ namespace Din_Kogebog
             }
         }
 
+        private static bool GetSteps(Recipe recipe)
+        {
+            throw new NotImplementedException();
+        }
+
         private static bool GetIngredients(Recipe recipe)
         {
-            while (true)
+            //TODO: already added ingredient, text should be all lowercase
+            bool cont = true;
+            bool result = true;
+            while (cont)
             {
-                //TODO: add first run and then prompt for when done
                 string[] ingredient = PromptForInput($"Tilføj ingredienser\n{recipe.Name}\n" +
                     $"{recipe.PrintIngredientList()}Tilføj næste ingrediens: [mængde enhed navn]").Split(" ");
                 if (ingredient == null)
                 {
-                    return false;
+                    result = cont = false;
                 }
                 else
                 {
@@ -87,8 +98,7 @@ namespace Din_Kogebog
                     }
                     else
                     {
-                        double amount;
-                        bool correct = double.TryParse(ingredient[0], out amount);
+                        bool correct = double.TryParse(ingredient[0], out double amount);
                         if (!correct)
                         {
                             Console.WriteLine("Mængden skal være et tal! Prøv igen. :)");
@@ -98,13 +108,69 @@ namespace Din_Kogebog
                         else
                         {
                             recipe.AddIngredient(ingredient[2], (amount, unit));
+                            bool confirm = true;
+                            bool con2 = true;
+                            while (con2)
+                            {
+                                Console.Clear();
+                                Console.WriteLine($"{recipe.Name}\n{recipe.PrintIngredientList()}Er der flere ingredienser?");
+                                if (confirm)
+                                {
+                                    ReverseColors();
+                                    Console.Write("Ja");
+                                    ReverseColors();
+                                    Console.Write("/Nej");
+                                }
+                                else
+                                {
+                                    Console.Write("Ja/");
+                                    ReverseColors();
+                                    Console.Write("Nej");
+                                    ReverseColors();
+                                }
+                                ConsoleKeyInfo inkey = Console.ReadKey();
+                                switch ((int)inkey.Key)
+                                {
+                                    case 37:
+                                    case 39:
+                                        {
+                                            if (confirm)
+                                                confirm = false;
+                                            else
+                                                confirm = true;
+                                            break;
+                                        }
+                                    case 13:
+                                        {
+                                            con2 = false;
+                                            if (confirm)
+                                            {
+                                                cont = true;
+                                            }
+                                            else
+                                            {
+                                                cont = false;
+                                                result = true;
+                                            }
+                                            
+                                            break;
+                                        }
+                                    case 27:
+                                        {
+                                            cont = false;
+                                            con2 = false;
+                                            break;
+                                        }
+                                    default:
+                                        break;
+                                }
+
+                            }
                         }
                     }
                 }
-
-
-
             }
+            return result;
         }
 
         static private string PromptForInput(string question)
