@@ -99,6 +99,7 @@ namespace Din_Kogebog
 
         public void AddStep(int num, string step)
         {
+            //TODO: formater teskt til at starte med stort og slutte på punktum
             if(num == Steps.Count+1)
             {
                 Steps.Add(num, step);
