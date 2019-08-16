@@ -242,6 +242,7 @@ namespace Din_Kogebog
             {
                 string[] step = ConsoleHelper.PromptForInput($"Fremgangsmåde\n{Name}\n"
                     + $"{PrintSteps()}Hvad er næste trin? [nr : trin]").Split(":");
+                //TODO: fail check for wrong number of arguments
                 if (step == null)
                 {
                     result = cont = false;
@@ -261,6 +262,30 @@ namespace Din_Kogebog
             }
             return result;
         }
+
+        public bool GetBaking()
+        {
+            if (ConsoleHelper.PromptYesNo($"Skal {Name} bages?"))
+            {
+                //TODO: securing
+                Baking = true;
+                BakingMode = ConsoleHelper.PromptForInput("Hvilken indstilling skal ovnen have? fx varmluft, alm ovn");
+
+                int.TryParse(ConsoleHelper.PromptForInput("Hvilken temperatur [C] skal ovnen have?"),out int temp);
+                BakingTemperature = temp;
+
+                int.TryParse(ConsoleHelper.PromptForInput("Hvor lang tid skal retten være i ovnen?[min]"), out int time);
+                BakingTime = time;
+
+                return true;
+
+            }
+            else
+            {
+                Baking = false;
+                return true;
+            }
+        } 
 
         private string PrintUnit(Unit u) 
         {

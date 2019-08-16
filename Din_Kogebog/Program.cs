@@ -46,6 +46,10 @@ namespace Din_Kogebog
             MainMenu.AddMenuItem(ImportExportMenu);
             MainMenu.AddMenuItem(SettingsMenu);
             MainMenu.AddMenuItem(Exit);
+
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter navn"));
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter ingrediens"));
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter tid"));
         }
 
         static private void NewRecipe()
@@ -67,6 +71,12 @@ namespace Din_Kogebog
                 {
                     MainMenu.Select();
                 }
+                if(!newRecipe.GetBaking())
+                {
+                    MainMenu.Select();
+                }
+
+                //TODO: add number of servings, categories and total time
 
 
                 RecipeList.Add(newRecipe);

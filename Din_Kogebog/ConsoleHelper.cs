@@ -46,6 +46,7 @@ namespace Din_Kogebog
                                 confirm = false;
                             else
                                 confirm = true;
+                                
                             break;
                         }
                     case 13:
@@ -53,29 +54,29 @@ namespace Din_Kogebog
                             //enter
                             if (confirm)
                             {
+                                
                                 return input;
+                                
                             }
                             else
                             {
-                                input = null;
+                                input = default;
                             }
                             break;
                         }
                     case 27:
                         {
                             //esc
-                            return null;
+                            return default;
                         }
                     default:
                         break;
                 }
-
-
-
             }
 
-            return input;
+            return default;
         }
+
         public static bool PromptYesNo(string question)
         {
             bool confirm = true, cont = true;
