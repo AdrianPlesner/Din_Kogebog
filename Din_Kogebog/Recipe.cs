@@ -199,6 +199,69 @@ namespace Din_Kogebog
             }
         }
 
+        public bool GetIngredients()
+        {
+            //TODO: behaviour for already added ingredient
+            bool cont = true, result = true;
+            while (cont)
+            {
+                string[] ingredient = ConsoleHelper.PromptForInput($"Ingredienser\n{Name}\n" +
+                    $"{PrintIngredientList()}Tilføj næste ingrediens: [mængde enhed navn]").ToLower().Split(" ");
+                //TODO: fail check if wrong number of arguments
+                if (ingredient == null)
+                {
+                    result = cont = false;
+                }
+                else
+                {
+                    Unit unit = Recipe.ParseUnit(ingredient[1]);
+                    if (unit == Unit.nan)
+                    {
+                        Console.WriteLine("Ukendt enhed! Prøv igen. :)");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    bool correct = double.TryParse(ingredient[0], out double amount);
+                    if (!correct)
+                    {
+                        Console.WriteLine("Mængden skal være et tal! Prøv igen. :)");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    AddIngredient(ingredient[2], (amount, unit));
+                    cont &= ConsoleHelper.PromptYesNo($"Er der flere ingredienser i {Name}?");
+                }
+            }
+            return result;
+        }
+
+        public bool GetSteps()
+        {
+            bool result = true, cont = true;
+            while (cont)
+            {
+                string[] step = ConsoleHelper.PromptForInput($"Fremgangsmåde\n{Name}\n"
+                    + $"{PrintSteps()}Hvad er næste trin? [nr : trin]").Split(":");
+                if (step == null)
+                {
+                    result = cont = false;
+                }
+                else
+                {
+                    bool correctNum = int.TryParse(step[0], out int stepNum);
+                    if (!correctNum)
+                    {
+                        Console.WriteLine("Trinnet skal have et nummer der er et tal. Prøv igen :)");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    AddStep(stepNum, step[1]);
+                    cont &= ConsoleHelper.PromptYesNo($"Er der flere trin i {Name}?");
+                }
+            }
+            return result;
+        }
+
         private string PrintUnit(Unit u) 
         {
             
@@ -251,7 +314,5 @@ namespace Din_Kogebog
             else
                 return Unit.nan;
         }
-
-
     }
 }
