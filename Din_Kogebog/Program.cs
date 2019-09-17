@@ -50,6 +50,7 @@ namespace Din_Kogebog
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter navn"));
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter ingrediens"));
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter tid"));
+            GetRecipeMenu.AddMenuItem(new ActionMenuItem("Tilbage"));
         }
 
         static private void NewRecipe()
