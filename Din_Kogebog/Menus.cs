@@ -10,7 +10,7 @@ namespace Din_Kogebog
 
         public Menu(string title, string content) : base(title, content) { }
 
-        protected List<MenuItem> Items = new List<MenuItem>();
+        public List<MenuItem> Items { get; } = new List<MenuItem>();
 
         private int Selected = 0;
 

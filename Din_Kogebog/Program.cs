@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Din_Kogebog
 {
@@ -8,20 +10,20 @@ namespace Din_Kogebog
         static void Main()
         {
             SetupMenu();
-            //RecipeList = LoadRecipes();
+            RecipeList = LoadRecipes();
             MainMenu.Select();
 
 
         }
-
+        
         private static List<Recipe> LoadRecipes()
         {
-            throw new NotImplementedException();
+            return File.Exists("recipies.json") ? JsonConvert.DeserializeObject<List<Recipe>>(File.ReadAllText("recipies.json")) : RecipeList;
         }
 
         private static void SaveRecipes(List<Recipe> recipes)
         {
-            throw new NotImplementedException();
+            File.WriteAllText("recipies.json", JsonConvert.SerializeObject(RecipeList));
         }
 
         static Menu MainMenu = new Menu("Din Kogebog", "Hvordan vil du fortsætte?");
@@ -40,20 +42,35 @@ namespace Din_Kogebog
 
             ActionMenuItem Exit = new ActionMenuItem("Luk");
 
-
+            // Main menu config
             MainMenu.AddMenuItem(AddNewRecipe);
             MainMenu.AddMenuItem(GetRecipeMenu);
             MainMenu.AddMenuItem(ImportExportMenu);
             MainMenu.AddMenuItem(SettingsMenu);
             MainMenu.AddMenuItem(Exit);
 
+            // Get Recipe config
+            //GetRecipeMenu.AddMenuItem(new ActionMenuItem("Vis alle opskrifter") { SelectAction = () => { foreach (Recipe r in RecipeList) { r.PrintRecipe(); } Console.ReadKey(); } });
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter navn"));
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter ingrediens"));
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter tid"));
-            GetRecipeMenu.AddMenuItem(new ActionMenuItem("Tilbage"));
+            GetRecipeMenu.AddMenuItem(new ActionMenuItem("Tilbage") { SelectAction = MainMenu.Select });
+            
+
+            // Import/export config 
+
+            // Settings config
+
+            // Exit config
+            Exit.SelectAction = () =>
+            {
+                SaveRecipes(RecipeList);
+                Environment.Exit(0);
+
+            };
         }
 
-        static private void NewRecipe()
+        private static void NewRecipe()
         {
             string name = ConsoleHelper.PromptForInput("Hvad er navnet på din nye opskrift?");
             if (name == null)

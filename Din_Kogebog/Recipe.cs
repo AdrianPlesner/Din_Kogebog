@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 namespace Din_Kogebog
 {
     public enum Unit
@@ -16,6 +17,7 @@ namespace Din_Kogebog
         nan
     }
 
+    [Serializable]
     public class Recipe
     {
         public Recipe(string name)
@@ -25,23 +27,12 @@ namespace Din_Kogebog
 
         public string Name { get; set; }
 
+        [JsonProperty]
         private Dictionary<string, (double, Unit)> Ingredients = new Dictionary<string, (double, Unit)>();
-
+        [JsonProperty]
         private SortedList<int, string> Steps = new SortedList<int, string>(); 
 
-        public int Difficulty { 
-            get
-            {
-                return Difficulty;
-            }
-            set
-            {  
-                if (value > 0 && value < 5) 
-                {
-                    Difficulty = value; 
-                } 
-            } 
-        }
+        public int Difficulty { get; set; }
 
         public int Time { get; set; }
 
