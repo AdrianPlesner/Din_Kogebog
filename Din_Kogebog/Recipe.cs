@@ -30,7 +30,7 @@ namespace Din_Kogebog
         [JsonProperty]
         private Dictionary<string, (double, Unit)> Ingredients = new Dictionary<string, (double, Unit)>();
         [JsonProperty]
-        private SortedList<int, string> Steps = new SortedList<int, string>(); 
+        private SortedList<int, string> Steps = new SortedList<int, string>();
 
         public int Difficulty { get; set; }
 
@@ -71,7 +71,7 @@ namespace Din_Kogebog
         {
             string result = "";
 
-            foreach(var kvPair in Ingredients)
+            foreach (var kvPair in Ingredients)
             {
                 result += $"{kvPair.Value.Item1} {PrintUnit(kvPair.Value.Item2)} {kvPair.Key} \n";
             }
@@ -84,10 +84,10 @@ namespace Din_Kogebog
 
             string input = ConsoleHelper.PromptForInput("Hvor lang tid tager det at lave opskriften? [minutter] (ca)");
             int time;
-            while(!Int32.TryParse(input, out time))
+            while (!Int32.TryParse(input, out time))
             {
                 input = ConsoleHelper.PromptForInput("Dit input er af forkert format, prøv at skrive et tal i hele minutter. :) \nHvor lang tid tager det at lave opskriften? [minutter] (ca)");
-                if(input == null)
+                if (input == null)
                 {
                     return false;
                 }
@@ -101,17 +101,17 @@ namespace Din_Kogebog
         public void AddStep(int num, string step)
         {
             //TODO: formater teskt til at starte med stort og slutte på punktum
-            if(num == Steps.Count+1)
+            if (num == Steps.Count + 1)
             {
                 Steps.Add(num, step);
             }
-            else if(num > Steps.Count)
+            else if (num > Steps.Count)
             {
                 AddStep(Steps.Count + 1, step);
             }
             else
             {
-                for(int i = Steps.Count; i >= num; i--)
+                for (int i = Steps.Count; i >= num; i--)
                 {
                     string buffer = Steps[i];
                     Steps.Add(i + 1, buffer);
@@ -148,8 +148,8 @@ namespace Din_Kogebog
             int end = Steps.Count;
 
             Steps.Remove(num);
-            
-            for(int i = num + 1; i <= end; i++)
+
+            for (int i = num + 1; i <= end; i++)
             {
                 string buffer = Steps[i];
                 Steps.Add(i - 1, buffer);
@@ -161,7 +161,7 @@ namespace Din_Kogebog
         {
             string result = "";
 
-            foreach(var item in Steps)
+            foreach (var item in Steps)
             {
                 result += $"{item.Key}. {item.Value} \n";
             }
@@ -219,17 +219,24 @@ namespace Din_Kogebog
         public bool GetCategories()
         {
             string[] input = ConsoleHelper.PromptForInput("Hvilke kategorier går denne opskrift ind under? [kat1,kat2,kat3,...] (Fx: aftensmad, brød, desert) ").Split(", ");
-            if(input == null)
+            if (input == null)
             {
                 return false;
             }
-            foreach( string s in input){
+            foreach (string s in input) {
                 s.Replace(s[0], char.ToUpper(s[0]));
                 Categories.Add(s);
             }
-                
+
             return true;
 
+        }
+
+        public bool GetDifficulty()
+        { 
+            int.TryParse(ConsoleHelper.PromptForInput("Hvad er sværhedsgraden for denne opskrift? [1-5]"), out int difficulty);
+            Difficulty = difficulty;
+            return true;
         }
 
         public bool GetIngredients()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using System.IO.Compression;
 
 namespace Din_Kogebog
 {
@@ -55,9 +56,12 @@ namespace Din_Kogebog
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter ingrediens"));
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter tid"));
             GetRecipeMenu.AddMenuItem(new ActionMenuItem("Tilbage") { SelectAction = MainMenu.Select });
-            
+
 
             // Import/export config 
+            ImportExportMenu.AddMenuItem(new ActionMenuItem("Importer opskrifter"));
+            ImportExportMenu.AddMenuItem(new ActionMenuItem("Eksporter opskrifter") {SelectAction = ExportRecipes});
+
 
             // Settings config
 
@@ -68,6 +72,15 @@ namespace Din_Kogebog
                 Environment.Exit(0);
 
             };
+        }
+
+        private static void ExportRecipes()
+        {
+            SaveRecipes(RecipeList);
+            string path = ConsoleHelper.PromptForInput("Giv stien til hvor du vil have dine opskrifter eksporteret");
+            path = @"/Users/" + path + "/DetteErEnTest.txt";
+            Console.WriteLine(path);
+            File.WriteAllText(path, "hej");
         }
 
         private static void NewRecipe()
@@ -155,6 +168,18 @@ namespace Din_Kogebog
                         case 6:
                             {
                                 if (!newRecipe.GetCategories())
+                                {
+                                    step = -1;
+                                }
+                                else
+                                {
+                                    step++;
+                                }
+                                break;
+                            }
+                        case 7:
+                            {
+                                if(!newRecipe.GetDifficulty())
                                 {
                                     step = -1;
                                 }
