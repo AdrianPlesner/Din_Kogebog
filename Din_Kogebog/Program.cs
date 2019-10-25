@@ -63,24 +63,101 @@ namespace Din_Kogebog
             else
             {
                 Recipe newRecipe = new Recipe(name);
-
-                if (!newRecipe.GetIngredients())
+                int step = 1;
+                bool cont = true;
+                while (cont)
                 {
-                    MainMenu.Select();
+                    switch (step)
+                    {
+                        case -1:
+                            {
+                                cont = false;
+                                MainMenu.Select();
+                                break;
+                            }
+                        case 1:
+                            {
+                                if (!newRecipe.GetTime())
+                                {
+                                    step = -1;
+                                }
+                                else
+                                {
+                                    step++;
+                                }
+                                break;
+                            }
+                        case 2:
+                            {
+                                if (!newRecipe.GetServings())
+                                {
+                                    step = -1;
+                                }
+                                else
+                                {
+                                    step++;
+                                }
+                                break;
+                            }
+                        case 3:
+                            {
+                                if (!newRecipe.GetIngredients())
+                                {
+                                    step = -1;
+                                }
+                                else
+                                {
+                                    step++;
+                                }
+                                break;
+                            }
+                        case 4:
+                            {
+                                if (!newRecipe.GetSteps())
+                                {
+                                    step = -1;
+                                }
+                                else
+                                {
+                                    step++;
+                                }
+                                break;
+                            }
+                        case 5:
+                            {
+                                if (!newRecipe.GetBaking())
+                                {
+                                    step = -1;
+                                }
+                                else
+                                {
+                                    step++;
+                                }
+                                break;
+                            }
+                        case 6:
+                            {
+                                if (!newRecipe.GetCategories())
+                                {
+                                    step = -1;
+                                }
+                                else
+                                {
+                                    step++;
+                                }
+                                break;
+                            }
+                        default:
+                            {
+                                //done
+                                cont = false;
+                                break;
+                            }
+                    }
                 }
-                if (!newRecipe.GetSteps())
-                {
-                    MainMenu.Select();
-                }
-                if(!newRecipe.GetBaking())
-                {
-                    MainMenu.Select();
-                }
-
-                //TODO: add number of servings, categories and total time
-
 
                 RecipeList.Add(newRecipe);
+                MainMenu.Select();
 
             }
         }

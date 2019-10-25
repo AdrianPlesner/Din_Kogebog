@@ -43,19 +43,7 @@ namespace Din_Kogebog
             } 
         }
 
-        public int Time {
-            get
-            {
-                return Time;
-            }
-            set
-            {
-                if(value > 0)
-                {
-                    Time = value;
-                }
-            }
-        }
+        public int Time { get; set; }
 
         public int Servings { get; set; }
 
@@ -68,6 +56,9 @@ namespace Din_Kogebog
         public int BakingTemperature { get; set; }
 
         public List<string> Categories = new List<string>();
+
+
+
 
         public void AddIngredient(string ingredient, (double, Unit) amount)
         {
@@ -97,6 +88,25 @@ namespace Din_Kogebog
             return result;
         }
 
+        public bool GetTime()
+        {
+
+            string input = ConsoleHelper.PromptForInput("Hvor lang tid tager det at lave opskriften? [minutter] (ca)");
+            int time;
+            while(!Int32.TryParse(input, out time))
+            {
+                input = ConsoleHelper.PromptForInput("Dit input er af forkert format, prøv at skrive et tal i hele minutter. :) \nHvor lang tid tager det at lave opskriften? [minutter] (ca)");
+                if(input == null)
+                {
+                    return false;
+                }
+            }
+            Time = time;
+            return true;
+
+
+        }
+
         public void AddStep(int num, string step)
         {
             //TODO: formater teskt til at starte med stort og slutte på punktum
@@ -118,6 +128,23 @@ namespace Din_Kogebog
                 }
                 Steps.Add(num, step);
             }
+        }
+
+        public bool GetServings()
+        {
+            string input = ConsoleHelper.PromptForInput("Hvor mange portioner giver opskriften? (ca)");
+            int servings;
+            while (!Int32.TryParse(input, out servings))
+            {
+                Console.WriteLine("Dit input er af forkert format, prøv at skrive et helt tal. :)");
+                input = ConsoleHelper.PromptForInput("Hvor mange portioner giver opskriften? (ca)");
+                if (input == null)
+                {
+                    return false;
+                }
+            }
+            Servings = servings;
+            return true;
         }
 
         public void EditStep(int num, string newStep)
@@ -164,14 +191,13 @@ namespace Din_Kogebog
                 + Difficulty + "\t" + "Tid: " + Time);
             Console.WriteLine(PrintCategories());
             Console.WriteLine(PrintBaking());
-            
             Console.WriteLine(PrintIngredientList());
             Console.WriteLine(PrintSteps());
         }
 
         public string PrintBaking()
         {
-            if (Baking)
+            if (BakingTime != default)
             {
                 return $"Bages i {BakingTime} ved {BakingTemperature}" +
                     $" grader, ved {BakingMode}";
@@ -197,6 +223,22 @@ namespace Din_Kogebog
                 }
                 return result;
             }
+        }
+
+        public bool GetCategories()
+        {
+            string[] input = ConsoleHelper.PromptForInput("Hvilke kategorier går denne opskrift ind under? [kat1,kat2,kat3,...] (Fx: aftensmad, brød, desert) ").Split(", ");
+            if(input == null)
+            {
+                return false;
+            }
+            foreach( string s in input){
+                s.Replace(s[0], char.ToUpper(s[0]));
+                Categories.Add(s);
+            }
+                
+            return true;
+
         }
 
         public bool GetIngredients()
