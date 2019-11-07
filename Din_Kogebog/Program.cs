@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using System.IO.Compression;
+using System.Globalization;
 
 namespace Din_Kogebog
 {
@@ -51,18 +52,39 @@ namespace Din_Kogebog
             MainMenu.AddMenuItem(Exit);
 
             // Get Recipe config
-            //GetRecipeMenu.AddMenuItem(new ActionMenuItem("Vis alle opskrifter") { SelectAction = () => { foreach (Recipe r in RecipeList) { r.PrintRecipe(); } Console.ReadKey(); } });
+            GetRecipeMenu.AddMenuItem(new ActionMenuItem("Vis alle opskrifter") {
+                SelectAction = () => {
+                    Console.Clear();
+                    Console.WriteLine(PrintAllRecipes());
+                    Console.ReadKey();
+                    GetRecipeMenu.Select();
+                }
+            });
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter navn"));
+
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter ingrediens"));
+
             GetRecipeMenu.AddMenuItem(new Menu("Søg efter tid"));
-            GetRecipeMenu.AddMenuItem(new ActionMenuItem("Tilbage") { SelectAction = MainMenu.Select });
+
+            GetRecipeMenu.AddMenuItem(new ActionMenuItem("Tilbage") {
+                SelectAction = MainMenu.Select
+            });
 
 
             // Import/export config 
             ImportExportMenu.AddMenuItem(new ActionMenuItem("Importer opskrifter"));
-            ImportExportMenu.AddMenuItem(new ActionMenuItem("Eksporter opskrifter") {SelectAction = ExportRecipes});
+            ImportExportMenu.AddMenuItem(new ActionMenuItem("Eksporter opskrifter") {
+                SelectAction = () => {
+                    ExportRecipes();
+                    ImportExportMenu.Select();
+                }
+            });
+            ImportExportMenu.AddMenuItem(new ActionMenuItem("Tilbage")
+            {
+                SelectAction = MainMenu.Select
+            }) ;
 
-
+            
             // Settings config
 
             // Exit config
@@ -78,9 +100,21 @@ namespace Din_Kogebog
         {
             SaveRecipes(RecipeList);
             string path = ConsoleHelper.PromptForInput("Giv stien til hvor du vil have dine opskrifter eksporteret");
-            path = @"/Users/" + path + "/DetteErEnTest.txt";
+            string date = DateTime.Now.ToString().Replace("/","-").Replace(":","-").Replace(" ","");
+            path = @"/Users/" + path + "/RecExport" + date + ".recipe";
             Console.WriteLine(path);
-            File.WriteAllText(path, "hej");
+            File.WriteAllText(path, PrintAllRecipes());
+        }
+
+        private static string PrintAllRecipes()
+        {
+            string result = null;
+            foreach (Recipe r in RecipeList)
+            {
+                result += r.PrintRecipe();
+            }
+            return result;
+            
         }
 
         private static void NewRecipe()

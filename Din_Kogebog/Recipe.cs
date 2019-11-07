@@ -69,7 +69,7 @@ namespace Din_Kogebog
 
         public string PrintIngredientList()
         {
-            string result = "";
+            string result = "Ingrdienser:\n";
 
             foreach (var kvPair in Ingredients)
             {
@@ -159,7 +159,7 @@ namespace Din_Kogebog
 
         public string PrintSteps()
         {
-            string result = "";
+            string result = "Fremgangsmåde:\n";
 
             foreach (var item in Steps)
             {
@@ -174,24 +174,20 @@ namespace Din_Kogebog
             throw new NotImplementedException();
         }
 
-        public void PrintRecipe()
+        public string PrintRecipe()
         {
-            Console.Clear();
-            Console.WriteLine(Name);
-            Console.WriteLine("Portioner: " + Servings + "\t" + "Sværhedsgrad: "
-                + Difficulty + "\t" + "Tid: " + Time);
-            Console.WriteLine(PrintCategories());
-            Console.WriteLine(PrintBaking());
-            Console.WriteLine(PrintIngredientList());
-            Console.WriteLine(PrintSteps());
+            return Name + "\nPortioner: " + Servings + "\t" + "Sværhedsgrad: "
+                + Difficulty + "/5\t" + "Tid: " + Time + "\n" + PrintCategories()
+                + "\n" + PrintBaking() + "\n\n" + PrintIngredientList() + "\n"
+                + PrintSteps() + "\n";
         }
 
         public string PrintBaking()
         {
             if (BakingTime != default)
             {
-                return $"Bages i {BakingTime} ved {BakingTemperature}" +
-                    $" grader, ved {BakingMode}";
+                return $"Bages i {BakingTime} minutter ved {BakingTemperature}" +
+                    $" grader, {BakingMode}";
             }
             else
             {
