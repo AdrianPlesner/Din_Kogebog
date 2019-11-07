@@ -20,12 +20,16 @@ namespace Din_Kogebog
         
         private static List<Recipe> LoadRecipes()
         {
-            return File.Exists("recipies.json") ? JsonConvert.DeserializeObject<List<Recipe>>(File.ReadAllText("recipies.json")) : RecipeList;
+            return File.Exists("Recipes/fullList.json") ? JsonConvert.DeserializeObject<List<Recipe>>(File.ReadAllText("Recipes/fullList.json")) : RecipeList;
         }
 
         private static void SaveRecipes(List<Recipe> recipes)
         {
-            File.WriteAllText("recipies.json", JsonConvert.SerializeObject(RecipeList));
+            if (!Directory.Exists("Recipes"))
+            {
+                Directory.CreateDirectory("Recipes");
+            }
+            File.WriteAllText("Recipes/fullList.json", JsonConvert.SerializeObject(recipes));
         }
 
         static Menu MainMenu = new Menu("Din Kogebog", "Hvordan vil du fortsætte?");
@@ -101,9 +105,9 @@ namespace Din_Kogebog
             SaveRecipes(RecipeList);
             string path = ConsoleHelper.PromptForInput("Giv stien til hvor du vil have dine opskrifter eksporteret");
             string date = DateTime.Now.ToString().Replace("/","-").Replace(":","-").Replace(" ","");
-            path = @"/Users/" + path + "/RecExport" + date + ".recipe";
+            path = @"/Users/" + path + "/RecExport" + date + ".zip";
             Console.WriteLine(path);
-            File.WriteAllText(path, PrintAllRecipes());
+            ZipFile.CreateFromDirectory("Recipes",path);
         }
 
         private static string PrintAllRecipes()
