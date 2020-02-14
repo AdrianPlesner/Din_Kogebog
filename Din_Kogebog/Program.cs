@@ -64,11 +64,15 @@ namespace Din_Kogebog
                     GetRecipeMenu.Select();
                 }
             });
-            GetRecipeMenu.AddMenuItem(new Menu("Søg efter navn"));
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter navn")); //TODO: Implemet
 
-            GetRecipeMenu.AddMenuItem(new Menu("Søg efter ingrediens"));
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter ingrediens")); //TODO: Implemet, search multiple ingredients
 
-            GetRecipeMenu.AddMenuItem(new Menu("Søg efter tid"));
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter kategori")); //TODO: Implemet
+
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter sværhedsgrad")); //TODO: Implement
+
+            GetRecipeMenu.AddMenuItem(new Menu("Søg efter tid")); //TODO: Implemet
 
             GetRecipeMenu.AddMenuItem(new ActionMenuItem("Tilbage") {
                 SelectAction = MainMenu.Select
@@ -76,8 +80,14 @@ namespace Din_Kogebog
 
 
             // Import/export config 
-            ImportExportMenu.AddMenuItem(new ActionMenuItem("Importer opskrifter"));
-            ImportExportMenu.AddMenuItem(new ActionMenuItem("Eksporter opskrifter") {
+            ImportExportMenu.AddMenuItem(new ActionMenuItem("Importer opskrifter") {
+                SelectAction = () =>
+                {
+                    ImportRecipes();
+                    ImportExportMenu.Select();
+                }
+            });
+            ImportExportMenu.AddMenuItem(new ActionMenuItem("Eksporter opskrifter") { //TODO: Add select which to export
                 SelectAction = () => {
                     ExportRecipes();
                     ImportExportMenu.Select();
@@ -90,6 +100,7 @@ namespace Din_Kogebog
 
             
             // Settings config
+            //TODO: Add setings menus
 
             // Exit config
             Exit.SelectAction = () =>
@@ -108,6 +119,37 @@ namespace Din_Kogebog
             path = @"/Users/" + path + "/RecExport" + date + ".zip";
             Console.WriteLine(path);
             ZipFile.CreateFromDirectory("Recipes",path);
+            Console.ReadKey();
+        }
+
+        private static void ImportRecipes()
+        {
+            string path = ConsoleHelper.PromptForInput("Giv stien til hvor du vil importere opskrifter fra");
+            bool cont = true;
+            do
+            {
+                if (Path.GetExtension(path) == ".zip")
+                {
+                    if (File.Exists(path))
+                    {
+                        ZipArchive zip = new ZipArchive(new FileStream(path,FileMode.Open) );
+                        
+                        cont = false;
+                    }
+                    else
+                    {
+                        path = ConsoleHelper.PromptForInput("Stien existerer ikke. Prøv igen");
+                    }
+
+                }
+                else
+                {
+                    path = ConsoleHelper.PromptForInput("Opskrifter skal importeres fra en .zip fil");
+
+                }
+            } while (cont);
+            Console.ReadKey();
+
         }
 
         private static string PrintAllRecipes()
