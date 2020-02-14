@@ -30,6 +30,7 @@ namespace Din_Kogebog
                 Directory.CreateDirectory("Recipes");
             }
             File.WriteAllText("Recipes/fullList.json", JsonConvert.SerializeObject(recipes));
+            
         }
 
         static Menu MainMenu = new Menu("Din Kogebog", "Hvordan vil du fortsætte?");
@@ -132,8 +133,11 @@ namespace Din_Kogebog
                 {
                     if (File.Exists(path))
                     {
-                        ZipArchive zip = new ZipArchive(new FileStream(path,FileMode.Open) );
-                        
+                        using (ZipArchive zip = new ZipArchive(new FileStream(path, FileMode.Open)))
+                        {
+
+                        }
+
                         cont = false;
                     }
                     else
